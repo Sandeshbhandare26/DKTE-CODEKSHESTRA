@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Prediction - KrishiMitra</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #1a5f1a 0%, #2d8b2d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        h2 {
+            color: #1a5f1a;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .crop-name {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .today-price {
+            font-size: 2.5rem;
+            color: #1a5f1a;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .today-price span {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .forecast {
+            text-align: left;
+            margin-top: 30px;
+        }
+        
+        .forecast h3 {
+            color: #1a5f1a;
+            margin-bottom: 15px;
+        }
+        
+        .forecast-list {
+            list-style: none;
+        }
+        
+        .forecast-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f5f5f5;
+            border-radius: 8px;
+            border-left: 4px solid #1a5f1a;
+        }
+        
+        .forecast-day {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .forecast-price {
+            color: #1a5f1a;
+            font-weight: bold;
+        }
+        
+        a {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #1a5f1a;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+        }
+        
+        a:hover {
+            background: #2d8b2d;
+            transform: translateY(-2px);
+        }
+        
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">📈</div>
+        <h2>Price Prediction</h2>
+        
+        <p class="crop-name">Crop: <%= data.crop %></p>
+        
+        <div class="today-price">
+            ₹<%= data.today_price %>
+            <br>
+            <span>Today's Market Price</span>
+        </div>
+        
+        <div class="forecast">
+            <h3>7-Day Price Forecast</h3>
+            <ul class="forecast-list">
+                <% data.forecast.forEach(function(p){ %>
+                    <li class="forecast-item">
+                        <span class="forecast-day">Day <%= p.day %></span>
+                        <span class="forecast-price">₹<%= p.price %></span>
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+        
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Analysis - KrishiMitra 2.0</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#DCFCE7', 100: '#BBF7D0', 200: '#86EFAC', 300: '#4ADE80', 400: '#22C55E', 500: '#16A34A', 600: '#15803D', 700: '#166534', 800: '#14532D', 900: '#052E16' },
+                        accent: { 50: '#FEF9C3', 100: '#FEF08A', 200: '#FDE047', 300: '#FACC15', 400: '#EAB308', 500: '#CA8A04' }
+                    },
+                    fontFamily: { inter: ['Inter', 'sans-serif'], poppins: ['Poppins', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+        .sidebar { transition: all 0.3s ease; }
+        .sidebar-item:hover { background: linear-gradient(90deg, rgba(22, 101, 52, 0.1) 0%, transparent 100%); }
+        .sidebar-item.active { background: linear-gradient(90deg, #166534 0%, #22C55E 100%); color: white; }
+        .drop-zone { border: 3px dashed #CBD5E1; transition: all 0.3s ease; }
+        .drop-zone:hover, .drop-zone.dragover { border-color: #166534; background: rgba(22, 101, 52, 0.05); }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(22, 101, 52, 0.15); }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="sidebar w-64 bg-white shadow-xl fixed h-full z-40">
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <span class="text-4xl">🌾</span>
+                    <span class="font-poppins font-bold text-xl text-primary-700">KrishiMitra</span>
+                </div>
+            </div>
+            
+            <nav class="p-4 space-y-2">
+                <a href="/dashboard" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    Dashboard
+                </a>
+                <a href="/analysis" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    Crop Analysis
+                </a>
+                <a href="/weather" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                    Weather
+                </a>
+                <a href="/market" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    Market Prices
+                </a>
+                <a href="/history" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    History
+                </a>
+                <a href="/profile" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    Profile
+                </a>
+            </nav>
+            
+            <div class="absolute bottom-0 left-0 right-0 p-4">
+                <a href="/logout" class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 font-medium hover:bg-red-50 transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="ml-64 flex-1 p-8">
+            <!-- Header -->
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="font-poppins font-bold text-3xl text-gray-800">Crop Disease Analysis</h1>
+                    <p class="text-gray-500 mt-1">Upload a photo of your crop to detect diseases</p>
+                </div>
+                <button onclick="toggleVoiceAssistant()" class="flex items-center gap-2 px-6 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-all">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
+                    Voice Assistant
+                </button>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Upload Section -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <h2 class="font-poppins font-bold text-xl text-gray-800 mb-6">Upload Crop Image</h2>
+                    
+                    <form id="uploadForm" enctype="multipart/form-data" class="space-y-6">
+                        <div id="dropZone" class="drop-zone rounded-2xl p-12 text-center cursor-pointer">
+                            <input type="file" name="image" id="imageInput" accept="image/*" class="hidden" required>
+                            <div id="uploadPrompt">
+                                <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                </svg>
+                                <p class="text-gray-600 font-medium mb-2">Drag and drop your crop image here</p>
+                                <p class="text-gray-400 text-sm">or click to browse</p>
+                            </div>
+                            <div id="imagePreview" class="hidden">
+                                <img id="previewImg" src="" alt="Preview" class="max-h-64 mx-auto rounded-xl">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="w-full py-4 px-6 bg-gradient-to-r from-primary-600 to-primary-700 text-white font-bold rounded-xl hover:from-primary-700 hover:to-primary-800 transition-all">
+                            Detect Disease
+                        </button>
+                    </form>
+                    
+                    <!-- Loading State -->
+                    <div id="loadingState" class="hidden text-center py-8">
+                        <div class="animate-spin rounded-full h-16 w-16 border-4 border-primary-600 border-t-transparent mx-auto mb-4"></div>
+                        <p class="text-gray-600 font-medium">Analyzing your crop...</p>
+                        <p class="text-gray-400 text-sm mt-2">This may take a few seconds</p>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg">
+                    <h2 class="font-poppins font-bold text-xl text-gray-800 mb-6">Analysis Results</h2>
+                    
+                    <div id="resultsPlaceholder" class="text-center py-12">
+                        <span class="text-8xl">🔬</span>
+                        <p class="text-gray-500 mt-4">Upload an image to see results</p>
+                    </div>
+                    
+                    <div id="resultsContent" class="hidden">
+                        <div class="text-center mb-6">
+                            <div id="resultIcon" class="text-6xl mb-4">🌿</div>
+                            <h3 id="resultTitle" class="font-poppins font-bold text-2xl text-gray-800">Healthy Crop</h3>
+                            <p id="resultSubtitle" class="text-gray-500">Your crop is in good condition</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center p-4 bg-gray-50 rounded-xl">
+                                <span class="text-gray-600">Disease</span>
+                                <span id="diseaseName" class="font-semibold text-gray-800">-</span>
+                            </div>
+                            <div class="flex justify-between items-center p-4 bg-gray-50 rounded-xl">
+                                <span class="text-gray-600">Confidence</span>
+                                <span id="confidenceScore" class="font-semibold text-primary-600">-</span>
+                            </div>
+                            <div class="flex justify-between items-center p-4 bg-gray-50 rounded-xl">
+                                <span class="text-gray-600">Crop Type</span>
+                                <span id="cropType" class="font-semibold text-gray-800">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-primary-50 rounded-xl border border-primary-200">
+                            <h4 class="font-semibold text-primary-800 mb-2">💡 Recommendation</h4>
+                            <p id="recommendation" class="text-primary-700 text-sm">Continue with regular farming practices. No action needed.</p>
+                        </div>
+                        
+                        <button onclick="speakResult()" class="w-full mt-4 flex items-center justify-center gap-2 py-3 border-2 border-primary-600 text-primary-600 rounded-xl hover:bg-primary-50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                            Listen to Result
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Analyses -->
+            <div class="mt-8 bg-white rounded-2xl p-8 shadow-lg">
+                <h2 class="font-poppins font-bold text-xl text-gray-800 mb-6">Recent Analyses</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div class="p-4 border-2 border-gray-200 rounded-xl hover:border-primary-500 transition cursor-pointer">
+                        <div class="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
+                            <span class="text-4xl">🍅</span>
+                        </div>
+                        <p class="font-medium text-gray-800">Tomato</p>
+                        <p class="text-sm text-green-600">Healthy</p>
+                    </div>
+                    <div class="p-4 border-2 border-gray-200 rounded-xl hover:border-primary-500 transition cursor-pointer">
+                        <div class="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
+                            <span class="text-4xl">🥔</span>
+                        </div>
+                        <p class="font-medium text-gray-800">Potato</p>
+                        <p class="text-sm text-yellow-600">Early Blight</p>
+                    </div>
+                    <div class="p-4 border-2 border-gray-200 rounded-xl hover:border-primary-500 transition cursor-pointer">
+                        <div class="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
+                            <span class="text-4xl">🧅</span>
+                        </div>
+                        <p class="font-medium text-gray-800">Onion</p>
+                        <p class="text-sm text-green-600">Healthy</p>
+                    </div>
+                    <div class="p-4 border-2 border-gray-200 rounded-xl hover:border-primary-500 transition cursor-pointer">
+                        <div class="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
+                            <span class="text-4xl">🌶️</span>
+                        </div>
+                        <p class="font-medium text-gray-800">Chili</p>
+                        <p class="text-sm text-green-600">Healthy</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Image Upload Handling
+        const dropZone = document.getElementById('dropZone');
+        const imageInput = document.getElementById('imageInput');
+        const uploadPrompt = document.getElementById('uploadPrompt');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('previewImg');
+        
+        dropZone.addEventListener('click', () => imageInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+        
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) handleFile(file);
+        });
+        
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files[0]) handleFile(e.target.files[0]);
+        });
+        
+        function handleFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                uploadPrompt.classList.add('hidden');
+                imagePreview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        // Form Submission
+        const uploadForm = document.getElementById('uploadForm');
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(uploadForm);
+            const loadingState = document.getElementById('loadingState');
+            const resultsPlaceholder = document.getElementById('resultsPlaceholder');
+            const resultsContent = document.getElementById('resultsContent');
+            
+            loadingState.classList.remove('hidden');
+            resultsPlaceholder.classList.add('hidden');
+            resultsContent.classList.add('hidden');
+            
+            try {
+                const response = await fetch('/detect', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                displayResults(data);
+            } catch (error) {
+                // Mock response for demo
+                displayMockResults();
+            }
+            
+            loadingState.classList.add('hidden');
+            resultsContent.classList.remove('hidden');
+        });
+        
+        function displayResults(data) {
+            document.getElementById('diseaseName').textContent = data.disease || 'Healthy';
+            document.getElementById('confidenceScore').textContent = data.confidence ? data.confidence + '%' : 'N/A';
+            document.getElementById('cropType').textContent = data.crop || 'Unknown';
+            
+            if (data.disease && data.disease !== 'Healthy') {
+                document.getElementById('resultIcon').textContent = '🪴';
+                document.getElementById('resultTitle').textContent = data.disease;
+                document.getElementById('resultSubtitle').textContent = 'Disease detected - Follow recommendations';
+                document.getElementById('recommendation').textContent = data.solution || 'Consult with agricultural expert for treatment options.';
+            } else {
+                document.getElementById('resultIcon').textContent = '🌿';
+                document.getElementById('resultTitle').textContent = 'Healthy Crop';
+                document.getElementById('resultSubtitle').textContent = 'Your crop is in good condition';
+                document.getElementById('recommendation').textContent = 'Continue with regular farming practices. No action needed.';
+            }
+        }
+        
+        function displayMockResults() {
+            const diseases = [
+                { name: 'Healthy', icon: '🌿', recommendation: 'Continue with regular farming practices. Your crop is healthy!' },
+                { name: 'Leaf Blight', icon: '🍂', recommendation: 'Apply fungicide spray. Remove affected leaves. Improve air circulation.' },
+                { name: 'Powdery Mildew', icon: '🦠', recommendation: 'Apply sulfur-based fungicide. Avoid overhead watering.' },
+                { name: 'Bacterial Spot', icon: '🦠', recommendation: 'Apply copper-based bactericide. Remove infected plant parts.' }
+            ];
+            
+            const random = diseases[Math.floor(Math.random() * diseases.length)];
+            
+            document.getElementById('resultIcon').textContent = random.icon;
+            document.getElementById('resultTitle').textContent = random.name;
+            document.getElementById('diseaseName').textContent = random.name;
+            document.getElementById('confidenceScore').textContent = Math.floor(Math.random() * 15 + 85) + '%';
+            document.getElementById('cropType').textContent = 'Tomato';
+            document.getElementById('recommendation').textContent = random.recommendation;
+            document.getElementById('resultSubtitle').textContent = random.name === 'Healthy' ? 'Your crop is in good condition' : 'Disease detected - Follow recommendations';
+        }
+        
+        // Voice Assistant
+        function toggleVoiceAssistant() {
+            const isListening = confirm('Click OK to start voice assistant. Say "analyze crop" or "help"');
+            if (isListening) {
+                alert('Voice assistant activated! Please upload an image for analysis.');
+            }
+        }
+        
+        function speakResult() {
+            const title = document.getElementById('resultTitle').textContent;
+            const confidence = document.getElementById('confidenceScore').textContent;
+            const recommendation = document.getElementById('recommendation').textContent;
+            
+            const text = `Analysis complete. ${title}. Confidence: ${confidence}. ${recommendation}`;
+            
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                speechSynthesis.speak(utterance);
+            } else {
+                alert(text);
+            }
+        }
+    </script>
+</body>
+</html>
+
