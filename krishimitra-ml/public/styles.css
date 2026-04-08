@@ -1,0 +1,94 @@
+/* Global Styles for KrishiMitra Modern UI - Deep Dark Theme */
+:root {
+  --font-primary: 'Outfit', sans-serif;
+  --primary: #10b981;
+  --primary-hover: #059669;
+  
+  /* High Visibility Light Mode */
+  --bg: #f8fafc;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --header-bg: rgba(255, 255, 255, 0.85);
+  --text: #0f172a;
+  --text-muted: #475569;
+  --border: rgba(226, 232, 240, 0.8);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+[data-theme='dark'] {
+  /* Deep Dark Mode for visual comfort */
+  --bg: #020617;
+  --card-bg: rgba(15, 23, 42, 0.8);
+  --header-bg: rgba(2, 6, 23, 0.85);
+  --text: #f8fafc; /* Crisp white for high readability */
+  --text-muted: #94a3b8;
+  --border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  min-height: 100vh;
+}
+
+/* Force text visibility for standard headings and paragraphs */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text) !important;
+}
+
+p, span, div, td, th {
+  color: inherit;
+}
+
+/* Navigation items context-aware colors */
+.nav-item {
+  color: var(--text-muted) !important;
+}
+
+.nav-item.active {
+  color: var(--primary) !important;
+}
+
+/* Glassmorphism system */
+.glassmorphism {
+  background: var(--card-bg) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-header {
+  background: var(--header-bg) !important;
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.glass-sidebar {
+  background: var(--card-bg) !important;
+  backdrop-filter: blur(16px);
+  border-right: 1px solid var(--border) !important;
+}
+
+/* Global button cleanup */
+button {
+  color: var(--text);
+}
+
+/* Tailwind utility bypass for high contrast dark mode */
+.dark h1, .dark h2, .dark h3 {
+  color: #ffffff !important;
+}
+.dark p, .dark span:not(.text-emerald-500) {
+  color: #cbd5e1 !important;
+}
+
+/* Hover effects */
+.glass-card-hover:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary) !important;
+}

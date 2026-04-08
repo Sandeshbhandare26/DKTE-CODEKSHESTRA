@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - KrishiMitra 2.0</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#F0FDF4', 100: '#DCFCE7', 200: '#BBF7D0', 300: '#86EFAC', 400: '#4ADE80', 500: '#22C55E', 600: '#16A34A', 700: '#15803D', 800: '#166534', 900: '#14532D' },
+                        dark: { 800: '#1A202C', 900: '#111827' }
+                    },
+                    fontFamily: { inter: ['Inter', 'sans-serif'], poppins: ['Poppins', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+
+        body { font-family: 'Outfit', sans-serif; background-color: #f9fafb; }
+        .glassmorphism { background: white; border: 1px solid #f3f4f6; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .glass-header { background: white; border-bottom: 1px solid #f3f4f6; }
+        .glass-card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-color: #86efac; transition: all 0.3s ease; }
+        .nav-item { color: #4b5563; transition: all 0.2s ease; }
+        .nav-item:hover { background-color: #f3f4f6; color: #111827; }
+        .nav-item.active { background-color: #dcfce7; color: #166534; font-weight: 600; border-right: 4px solid #16a34a; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f3f4f6; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    </style>
+</head>
+<body class="font-inter bg-gray-50 text-gray-800 min-h-screen">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="sidebar w-64 glassmorphism border-r border-gray-200 fixed h-full z-40">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center gap-3">
+                    <span class="text-4xl">🌾</span>
+                    <span class="font-poppins font-bold text-xl text-primary-600">KrishiMitra</span>
+                </div>
+            </div>
+            <nav class="p-4 space-y-2">
+                <a href="/dashboard" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:text-gray-900 font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    Dashboard
+                </a>
+                <a href="/analysis" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:text-gray-900 font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    Crop Analysis
+                </a>
+                <a href="/weather" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:text-gray-900 font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                    Weather
+                </a>
+                <a href="/market" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:text-gray-900 font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    Market Prices
+                </a>
+                <a href="/history" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    History
+                </a>
+                <a href="/profile" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:text-gray-900 font-medium transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    Profile
+                </a>
+            </nav>
+            <div class="absolute bottom-0 left-0 right-0 p-4">
+                <a href="/logout" class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 font-medium hover:bg-red-500/10 transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="ml-64 flex-1 p-8">
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="font-poppins font-bold text-3xl text-gray-900">Prediction History</h1>
+                    <p class="text-gray-500 mt-1">View all your crop disease and price predictions</p>
+                </div>
+            </header>
+
+            <!-- Search and Filters -->
+            <div class="glassmorphism rounded-2xl p-6 mb-8 relative z-10">
+                <div class="flex flex-wrap gap-4 items-center">
+                    <div class="flex-1 min-w-64">
+                        <div class="relative">
+                            <input type="text" id="searchInput" placeholder="Search predictions..." class="w-full px-5 py-3 pl-12 glass-input rounded-xl focus:outline-none">
+                            <svg class="w-6 h-6 absolute left-4 top-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <select class="px-4 py-3 glass-input rounded-xl focus:outline-none appearance-none cursor-pointer">
+                        <option value="" class="bg-white text-gray-900 text-gray-900">All Types</option>
+                        <option value="disease" class="bg-white text-gray-900 text-gray-900">Disease Detection</option>
+                        <option value="price" class="bg-white text-gray-900 text-gray-900">Price Prediction</option>
+                    </select>
+                    <select class="px-4 py-3 glass-input rounded-xl focus:outline-none appearance-none cursor-pointer">
+                        <option value="" class="bg-white text-gray-900 text-gray-900">All Crops</option>
+                        <option value="tomato" class="bg-white text-gray-900 text-gray-900">Tomato</option>
+                        <option value="potato" class="bg-white text-gray-900 text-gray-900">Potato</option>
+                        <option value="onion" class="bg-white text-gray-900 text-gray-900">Onion</option>
+                        <option value="cabbage" class="bg-white text-gray-900 text-gray-900">Cabbage</option>
+                    </select>
+                    <select class="px-4 py-3 glass-input rounded-xl focus:outline-none appearance-none cursor-pointer">
+                        <option value="30" class="bg-white text-gray-900 text-gray-900">Last 30 Days</option>
+                        <option value="7" class="bg-white text-gray-900 text-gray-900">Last 7 Days</option>
+                        <option value="90" class="bg-white text-gray-900 text-gray-900">Last 90 Days</option>
+                        <option value="all" class="bg-white text-gray-900 text-gray-900">All Time</option>
+                    </select>
+                </div>
+            </div>            <!-- History Table -->
+            <div class="glassmorphism rounded-2xl overflow-hidden relative z-10 w-full overflow-x-auto">
+                <table class="w-full text-left whitespace-nowrap min-w-max">
+                    <thead>
+                        <tr class="border-b border-gray-200 bg-gray-50">
+                            <th class="py-4 px-6 font-semibold text-gray-600">Date</th>
+                            <th class="py-4 px-6 font-semibold text-gray-600">Type</th>
+                            <th class="py-4 px-6 font-semibold text-gray-600">Crop</th>
+                            <th class="py-4 px-6 font-semibold text-gray-600">Analysis</th>
+                            <th class="py-4 px-6 font-semibold text-gray-600">Confidence</th>
+                            <th class="py-4 px-6 font-semibold text-gray-600">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTable" class="divide-y divide-gray-200">
+                        <tr>
+                            <td colspan="6" class="py-8 text-center text-gray-500">
+                                <div class="flex items-center justify-center gap-3">
+                                    <div class="animate-spin rounded-full h-5 w-5 border-2 border-primary-500 border-t-transparent"></div>
+                                    Loading your prediction history...
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-center mt-8 gap-2 relative z-10">
+                <button id="prevBtn" onclick="changePage(-1)" class="px-4 py-2 border border-white/20 glass-input hover:bg-gray-50 rounded-xl transition cursor-not-allowed opacity-50" disabled>Previous</button>
+                <span id="pageIndicator" class="px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-500 text-gray-900 rounded-xl shadow-[0_0_15px_rgba(34,197,94,0.3)]">1</span>
+                <button id="nextBtn" onclick="changePage(1)" class="px-4 py-2 border border-white/20 text-gray-600 hover:bg-white/10 rounded-xl transition opacity-50 cursor-not-allowed" disabled>Next</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- View Details Modal -->
+    <div id="viewModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[60] backdrop-blur-sm">
+        <div class="glassmorphism rounded-2xl p-8 max-w-lg w-full mx-4 border border-gray-200 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-poppins font-bold text-xl text-gray-900">Prediction Details</h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-900 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div id="modalContent" class="space-y-4">
+                <!-- Content will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[60] backdrop-blur-sm">
+        <div class="glassmorphism rounded-2xl p-8 max-w-sm w-full mx-4 border border-gray-200 shadow-[0_8px_32px_rgba(0,0,0,0.5)] text-center">
+            <div class="inline-block p-4 rounded-full bg-red-500/20 text-red-500 mb-4 border border-red-500/30">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </div>
+            <h3 class="font-poppins font-bold text-xl mt-2 text-gray-900">Delete Prediction?</h3>
+            <p class="text-gray-500 mt-2 mb-6">This action cannot be undone.</p>
+            <div class="flex gap-4">
+                <button onclick="closeDeleteModal()" class="flex-1 px-4 py-3 glass-input text-gray-600 rounded-xl hover:bg-white/10 transition">Cancel</button>
+                <button onclick="confirmDelete()" class="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-red-500 text-gray-900 rounded-xl shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:from-red-500 hover:to-red-400 transition">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, db, collection, query, where, orderBy, getDocs, deleteDoc, doc, onAuthStateChanged } from './firebase-config.js';
+
+        const PAGE_SIZE = 10;
+        let allPredictions = [];
+        let filteredPredictions = [];
+        let currentPage = 1;
+        let deleteDocId = null;
+        let currentDetailData = null;
+
+        // ---- AUTH: Load on sign-in ----
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loadHistory(user.uid);
+            } else {
+                document.getElementById('historyTable').innerHTML = `
+                    <tr><td colspan="6" class="py-8 text-center text-gray-500">
+                        Please <a href="/login" class="text-primary-600 underline">log in</a> to view your prediction history.
+                    </td></tr>`;
+            }
+        });
+
+        // ---- LOAD FROM FIRESTORE ----
+        async function loadHistory(userId) {
+            const tableBody = document.getElementById('historyTable');
+            tableBody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-gray-500">
+                <div class="flex items-center justify-center gap-3">
+                    <div class="animate-spin rounded-full h-5 w-5 border-2 border-primary-500 border-t-transparent"></div>
+                    Fetching your predictions...
+                </div></td></tr>`;
+
+            try {
+                const q = query(
+                    collection(db, "predictions"),
+                    where("userId", "==", userId),
+                    orderBy("timestamp", "desc")
+                );
+                const snapshot = await getDocs(q);
+
+                allPredictions = [];
+                snapshot.forEach(docSnap => {
+                    allPredictions.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                filteredPredictions = [...allPredictions];
+                currentPage = 1;
+                renderTable();
+            } catch (err) {
+                console.error("Error fetching predictions:", err);
+                tableBody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-red-400">
+                    Failed to load history. ${err.message}
+                </td></tr>`;
+            }
+        }
+
+        // ---- RENDER TABLE PAGE ----
+        function renderTable() {
+            const tableBody = document.getElementById('historyTable');
+            const total = filteredPredictions.length;
+            const start = (currentPage - 1) * PAGE_SIZE;
+            const pageItems = filteredPredictions.slice(start, start + PAGE_SIZE);
+
+            if (total === 0) {
+                tableBody.innerHTML = `<tr><td colspan="6" class="py-12 text-center">
+                    <span class="text-5xl block mb-4">🌱</span>
+                    <p class="text-gray-500 font-medium">No predictions yet.</p>
+                    <p class="text-gray-500 text-sm mt-1">Run a disease analysis or price lookup to see history here.</p>
+                </td></tr>`;
+                updatePagination(0);
+                return;
+            }
+
+            let rows = '';
+            pageItems.forEach(item => {
+                const date = item.timestamp?.toDate ? item.timestamp.toDate().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A';
+                const isDisease = item.type === 'Disease Detection';
+                const typeBadge = isDisease
+                    ? `<span class="px-3 py-1 bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full text-sm">Disease</span>`
+                    : `<span class="px-3 py-1 bg-purple-500/20 text-purple-400 border border-purple-500/30 rounded-full text-sm">Price</span>`;
+                const resultValue = item.result || (item.price ? `₹${item.price}` : 'N/A');
+                const isHealthy = resultValue === 'Healthy' || resultValue === 'Healthy Leaf';
+                let resultBadge = '';
+                if (resultValue === 'Price Up') {
+                    resultBadge = `<span class="px-3 py-1 bg-green-500/20 text-green-600 border border-green-500/30 rounded-full text-sm font-bold">↑ Expected Up</span>`;
+                } else if (resultValue === 'Price Down') {
+                    resultBadge = `<span class="px-3 py-1 bg-red-500/20 text-red-600 border border-red-500/30 rounded-full text-sm font-bold">↓ Expected Down</span>`;
+                } else if (isHealthy) {
+                    resultBadge = `<span class="px-3 py-1 bg-green-500/20 text-green-600 border border-green-500/30 rounded-full text-sm">${resultValue}</span>`;
+                } else {
+                    resultBadge = `<span class="px-3 py-1 bg-yellow-500/20 text-yellow-600 border border-yellow-500/30 rounded-full text-sm">${resultValue}</span>`;
+                }
+                const cropEmoji = getCropEmoji(item.crop);
+
+                let extraInfo = item.confidence ? item.confidence + '%' : 'N/A';
+                if (!isDisease && item.mandi) {
+                    extraInfo = `<span class="text-xs text-gray-500">Market:</span> <br> ${item.mandi}`;
+                }
+
+                rows += `
+                    <tr class="hover:bg-gray-50 transition-colors" data-id="${item.id}">
+                        <td class="py-4 px-6 text-gray-500">${date}</td>
+                        <td class="py-4 px-6">${typeBadge}</td>
+                        <td class="py-4 px-6 text-gray-600">${cropEmoji} ${item.crop || 'Unknown'}</td>
+                        <td class="py-4 px-6">${resultBadge}</td>
+                        <td class="py-4 px-6 font-semibold text-primary-600">${extraInfo}</td>
+                        <td class="py-4 px-6">
+                            <button onclick="viewDetails('${item.id}')" class="text-primary-600 hover:text-primary-300 hover:underline mr-3 font-medium transition">View</button>
+                            <button onclick="deletePrediction('${item.id}')" class="text-red-400 hover:text-red-300 hover:underline font-medium transition">Delete</button>
+                        </td>
+                    </tr>`;
+            });
+
+            tableBody.innerHTML = rows;
+            updatePagination(total);
+        }
+
+        function updatePagination(total) {
+            const totalPages = Math.ceil(total / PAGE_SIZE);
+            document.getElementById('pageIndicator').textContent = `${currentPage} / ${totalPages || 1}`;
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            prevBtn.disabled = currentPage <= 1;
+            nextBtn.disabled = currentPage >= totalPages;
+            prevBtn.classList.toggle('opacity-50', currentPage <= 1);
+            prevBtn.classList.toggle('cursor-not-allowed', currentPage <= 1);
+            nextBtn.classList.toggle('opacity-50', currentPage >= totalPages);
+            nextBtn.classList.toggle('cursor-not-allowed', currentPage >= totalPages);
+        }
+
+        window.changePage = function(delta) {
+            currentPage += delta;
+            renderTable();
+        };
+
+        // ---- DETAIL MODAL ----
+        window.viewDetails = function(id) {
+            const item = allPredictions.find(p => p.id === id);
+            if (!item) return;
+            currentDetailData = item;
+            const date = item.timestamp?.toDate ? item.timestamp.toDate().toLocaleString('en-IN') : 'N/A';
+            const modal = document.getElementById('viewModal');
+            document.getElementById('modalContent').innerHTML = `
+                <div class="flex justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                    <span class="text-gray-500">Date</span>
+                    <span class="font-semibold text-gray-600">${date}</span>
+                </div>
+                <div class="flex justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                    <span class="text-gray-500">Type</span>
+                    <span class="font-semibold text-gray-600">${item.type || 'N/A'}</span>
+                </div>
+                <div class="flex justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                    <span class="text-gray-500">Crop</span>
+                    <span class="font-semibold text-gray-600">${item.crop || 'Unknown'}</span>
+                </div>
+                <div class="flex justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                    <span class="text-gray-500">Result</span>
+                    <span class="font-semibold ${item.result === 'Healthy' || item.result === 'Healthy Leaf' || item.result === 'Price Up' ? 'text-green-600' : 'text-yellow-600'}">${item.result || 'N/A'}</span>
+                </div>
+                ${item.price ? `
+                <div class="flex justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                    <span class="text-gray-500">Price</span>
+                    <span class="font-semibold text-primary-600">₹${item.price.toLocaleString('en-IN')}/qtl</span>
+                </div>
+                ` : ''}
+                ${item.mandi ? `
+                <div class="flex justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                    <span class="text-gray-500">Market</span>
+                    <span class="font-semibold text-gray-600">${item.mandi}</span>
+                </div>
+                ` : ''}
+                ${item.confidence ? `
+                <div class="flex justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                    <span class="text-gray-500">Confidence</span>
+                    <span class="font-semibold text-primary-600">${item.confidence}%</span>
+                </div>
+                ` : ''}
+                ${item.recommendation ? `
+                <div class="p-4 bg-primary-900/40 rounded-xl border border-primary-500/30 mt-2">
+                    <h4 class="font-semibold text-primary-300 mb-2 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Recommendation
+                    </h4>
+                    <p class="text-primary-100 text-sm leading-relaxed">${item.recommendation}</p>
+                </div>` : ''}
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        window.closeModal = function() {
+            document.getElementById('viewModal').classList.add('hidden');
+            document.getElementById('viewModal').classList.remove('flex');
+        };
+
+        // ---- DELETE ----
+        window.deletePrediction = function(id) {
+            deleteDocId = id;
+            const modal = document.getElementById('deleteModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        window.closeDeleteModal = function() {
+            document.getElementById('deleteModal').classList.add('hidden');
+            document.getElementById('deleteModal').classList.remove('flex');
+            deleteDocId = null;
+        };
+
+        window.confirmDelete = async function() {
+            if (!deleteDocId) return;
+            try {
+                await deleteDoc(doc(db, "predictions", deleteDocId));
+                allPredictions = allPredictions.filter(p => p.id !== deleteDocId);
+                filteredPredictions = filteredPredictions.filter(p => p.id !== deleteDocId);
+                // Adjust page if last item on page deleted
+                const totalPages = Math.ceil(filteredPredictions.length / PAGE_SIZE);
+                if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+                renderTable();
+            } catch (err) {
+                console.error("Delete failed:", err);
+                alert("Failed to delete prediction: " + err.message);
+            }
+            closeDeleteModal();
+        };
+
+        // ---- SEARCH ----
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            filteredPredictions = allPredictions.filter(p =>
+                (p.crop || '').toLowerCase().includes(term) ||
+                (p.result || '').toLowerCase().includes(term) ||
+                (p.type || '').toLowerCase().includes(term)
+            );
+            currentPage = 1;
+            renderTable();
+        });
+
+        // ---- HELPERS ----
+        function getCropEmoji(crop) {
+            const map = {
+                'tomato': '🍅', 'potato': '🥔', 'onion': '🧅', 'cabbage': '🥬',
+                'carrot': '🥕', 'cauliflower': '🥦', 'cucumber': '🥒', 'spinach': '🥬',
+                'okra': '🫛', 'brinjal': '🍆', 'chili': '🌶️', 'pepper': '🌶️',
+                'wheat': '🌾', 'rice': '🌾', 'maize': '🌽', 'mango': '🥭',
+                'tomato/potato': '🍅', 'rice/maize': '🌾', 'wheat/cucumber': '🥒',
+                'tomato/pepper': '🍅', 'tomato/cucumber': '🍅', 'mango/tomato': '🥭',
+                'grape/cucumber': '🍇', 'wheat/bean': '🌾', 'general': '🌿'
+            };
+            const key = (crop || '').toLowerCase();
+            return map[key] || '🌱';
+        }
+    </script>
+    <script src="shared.js"></script>
+</body>
+</html>

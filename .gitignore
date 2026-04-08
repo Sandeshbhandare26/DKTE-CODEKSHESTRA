@@ -1,0 +1,11 @@
+node_modules/
+.firebase/
+__pycache__/
+*.keras
+*.zip
+*.pdf
+.DS_Store
+.env
+dist/
+build/
+package-lock.json

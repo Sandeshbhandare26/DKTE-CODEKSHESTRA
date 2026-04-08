@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Detection Result - KrishiMitra</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <meta name="description" content="View your crop disease detection result and AI-powered treatment recommendations.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+
+        body { font-family: 'Outfit', sans-serif; background-color: #f9fafb; }
+        .glassmorphism { background: white; border: 1px solid #f3f4f6; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .glass-header { background: white; border-bottom: 1px solid #f3f4f6; }
+        .glass-card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); border-color: #86efac; transition: all 0.3s ease; }
+        .nav-item { color: #4b5563; transition: all 0.2s ease; }
+        .nav-item:hover { background-color: #f3f4f6; color: #111827; }
+        .nav-item.active { background-color: #dcfce7; color: #166534; font-weight: 600; border-right: 4px solid #16a34a; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f3f4f6; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    </style>
+</head>
+<body>
+    <div class="card" id="mainCard">
+        <!-- Loading state -->
+        <div class="loading-state" id="loadingState">
+            <div class="spinner"></div>
+            <p style="color:#94a3b8">Loading result...</p>
+        </div>
+
+        <!-- Result content (hidden until data loads) -->
+        <div id="resultContent" style="display:none;">
+            <div style="text-align:center;">
+                <span class="icon" id="resultIcon">🌿</span>
+                <div id="resultBadge" class="badge healthy">
+                    <span>✓</span> <span id="badgeText">Healthy</span>
+                </div>
+                <h1 id="diseaseName">Healthy Crop</h1>
+                <p class="subtitle" id="resultSubtitle">Your crop appears to be in good health</p>
+            </div>
+
+            <div class="meta-grid">
+                <div class="meta-card">
+                    <p class="meta-label">Crop Type</p>
+                    <p class="meta-value" id="cropType">—</p>
+                </div>
+                <div class="meta-card">
+                    <p class="meta-label">Confidence</p>
+                    <p class="meta-value" id="confidenceValue">—%</p>
+                    <div class="confidence-bar-wrap">
+                        <div class="confidence-bar" id="confidenceBar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solution-box" id="solutionBox">
+                <p class="solution-title">💡 Recommended Action</p>
+                <p class="solution-text" id="solutionText">Loading recommendation...</p>
+            </div>
+
+            <div class="actions">
+                <a href="analysis.html" class="btn btn-primary">📷 New Analysis</a>
+                <a href="history.html" class="btn btn-secondary">📋 View History</a>
+                <button class="btn btn-secondary" onclick="speakResult()" id="speakBtn">🔊 Read Aloud</button>
+            </div>
+        </div>
+
+        <!-- Error state -->
+        <div id="errorState" style="display:none;" class="error-box">
+            <span class="error-icon">⚠️</span>
+            <h1 style="color:#f87171; font-size:1.5rem; margin-bottom:8px;">No Result Found</h1>
+            <p style="color:#94a3b8; margin-bottom:24px;">Please go back and run a crop analysis first.</p>
+            <a href="analysis.html" class="btn btn-primary" style="max-width:200px; margin:0 auto;">📷 Go to Analysis</a>
+        </div>
+    </div>
+
+    <script>
+        const ML_URL = 'http://127.0.0.1:8000';
+
+        // Read result from URL params or sessionStorage
+        function loadResult() {
+            const loading = document.getElementById('loadingState');
+            const resultContent = document.getElementById('resultContent');
+            const errorState = document.getElementById('errorState');
+
+            // 1. Try URL params (?disease=...&confidence=...&crop=...&solution=...)
+            const params = new URLSearchParams(window.location.search);
+            let data = {};
+
+            if (params.get('disease')) {
+                data = {
+                    disease: params.get('disease'),
+                    confidence: parseFloat(params.get('confidence') || '0'),
+                    crop: params.get('crop') || 'Unknown',
+                    solution: decodeURIComponent(params.get('solution') || '')
+                };
+            }
+
+            // 2. Try sessionStorage (set by analysis.html before redirect)
+            if (!data.disease) {
+                try {
+                    const stored = sessionStorage.getItem('lastPrediction');
+                    if (stored) data = JSON.parse(stored);
+                } catch (e) {}
+            }
+
+            if (!data.disease) {
+                loading.style.display = 'none';
+                errorState.style.display = 'block';
+                return;
+            }
+
+            renderResult(data);
+            loading.style.display = 'none';
+            resultContent.style.display = 'block';
+
+            // Animate confidence bar after brief delay
+            setTimeout(() => {
+                document.getElementById('confidenceBar').style.width = data.confidence + '%';
+            }, 200);
+        }
+
+        function renderResult(data) {
+            const isHealthy = data.disease === 'Healthy';
+            const isFatal = ['Mosaic Virus', 'Late Blight'].includes(data.disease);
+
+            // Icon
+            document.getElementById('resultIcon').textContent = isHealthy ? '🌿' : isFatal ? '🚨' : '🪴';
+
+            // Badge
+            const badge = document.getElementById('resultBadge');
+            const badgeText = document.getElementById('badgeText');
+            if (isHealthy) {
+                badge.className = 'badge healthy';
+                badge.innerHTML = '<span>✓</span> <span>Healthy Detected</span>';
+            } else if (isFatal) {
+                badge.className = 'badge fatal';
+                badge.innerHTML = '<span>⚠</span> <span>Urgent Action Required</span>';
+            } else {
+                badge.className = 'badge disease';
+                badge.innerHTML = '<span>!</span> <span>Disease Detected</span>';
+            }
+
+            // Title
+            document.getElementById('diseaseName').textContent = isHealthy ? 'Healthy Crop ✓' : data.disease;
+            document.getElementById('diseaseName').style.color = isHealthy ? '#34d399' : isFatal ? '#f87171' : '#fbbf24';
+
+            // Subtitle
+            document.getElementById('resultSubtitle').textContent = isHealthy
+                ? 'Your crop appears to be in excellent health. No intervention needed.'
+                : `Disease identified in ${data.crop} — please review the recommendations below.`;
+
+            // Meta fields
+            document.getElementById('cropType').textContent = data.crop || 'General';
+            const conf = parseFloat(data.confidence) || 0;
+            document.getElementById('confidenceValue').textContent = conf.toFixed(1) + '%';
+
+            const bar = document.getElementById('confidenceBar');
+            bar.className = 'confidence-bar';
+            if (conf < 50) bar.classList.add('low');
+            else if (conf < 75) bar.classList.add('medium');
+
+            // Solution
+            const solutionBox = document.getElementById('solutionBox');
+            solutionBox.className = 'solution-box ' + (isHealthy ? '' : isFatal ? 'fatal-border' : 'disease-border');
+            document.getElementById('solutionText').textContent = data.solution || 'Consult your local agricultural expert for guidance.';
+        }
+
+        function speakResult() {
+            const disease = document.getElementById('diseaseName').textContent;
+            const conf = document.getElementById('confidenceValue').textContent;
+            const solution = document.getElementById('solutionText').textContent;
+            const text = `Crop analysis result: ${disease}. Confidence: ${conf}. ${solution}`;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utt = new SpeechSynthesisUtterance(text);
+                utt.lang = 'en-IN';
+                utt.rate = 0.9;
+                speechSynthesis.speak(utt);
+            }
+        }
+
+        // Run on load
+        loadResult();
+    </script>
+    <script src="shared.js"></script>
+</body>
+</html>

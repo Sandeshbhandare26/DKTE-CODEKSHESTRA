@@ -6,3 +6,5 @@ pandas
 pillow
 scikit-learn
 python-multipart
+prophet
+pystan

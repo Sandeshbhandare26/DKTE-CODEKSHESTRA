@@ -18,11 +18,11 @@
 
 ## Phase 2: Frontend UI Development
 - [x] 2.1 Create Tailwind CSS configuration
-- [x] 2.2 Create CSS with custom styles and animations
+- [x] 2.2 Create CSS with custom styles and animations 
 - [x] 2.3 Create landing page (index.ejs)
 - [x] 2.4 Create login page
 - [x] 2.5 Create register page
-- [x] 2.6 Create dashboard page
+- [x] 2.6 Create dashboard 
 - [x] 2.7 Create crop analysis page
 - [x] 2.8 Create weather page
 - [x] 2.9 Create market page

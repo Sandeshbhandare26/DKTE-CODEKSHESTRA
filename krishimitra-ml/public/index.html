@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrishiMitra 2.0 - Grow Smart. Sell Smarter</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#DCFCE7', 100: '#BBF7D0', 200: '#86EFAC', 300: '#4ADE80', 400: '#22C55E', 500: '#16A34A', 600: '#15803D', 700: '#166534', 800: '#14532D', 900: '#052E16' },
+                        accent: { 50: '#FEF9C3', 100: '#FEF08A', 200: '#FDE047', 300: '#FACC15', 400: '#EAB308', 500: '#CA8A04' }
+                    },
+                    fontFamily: { inter: ['Inter', 'sans-serif'], poppins: ['Poppins', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #166534 0%, #22C55E 50%, #15803D 100%);
+        }
+
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(22, 101, 52, 0.2);
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(22, 101, 52, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(22, 101, 52, 0.6);
+            }
+        }
+
+        .glow-btn:hover {
+            animation: pulse-glow 1.5s infinite;
+        }
+    </style>
+</head>
+
+<body class="font-inter">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glassmorphism border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <span class="text-4xl floating">🌾</span>
+                    <span class="font-poppins font-bold text-xl text-primary-700">KrishiMitra 2.0</span>
+                </div>
+                <div class="hidden md:flex items-center gap-6">
+                    <!-- Language Selector -->
+                    <div class="relative">
+                        <button id="langBtn"
+                            class="flex items-center gap-2 px-3 py-2 border-2 border-primary-200 rounded-xl hover:bg-primary-50 transition-all duration-300">
+                            <svg class="w-5 h-5 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                            </svg>
+                            <span id="currentLang" class="font-semibold text-primary-700">EN</span>
+                            <svg class="w-4 h-4 text-primary-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="langDropdown"
+                            class="hidden absolute right-0 mt-2 w-52 bg-white border-2 border-primary-100 rounded-2xl shadow-2xl z-50 overflow-hidden">
+                            <button onclick="setLanguage('en')"
+                                class="w-full px-5 py-4 text-left hover:bg-primary-50 flex items-center gap-3 border-b border-primary-50 transition">
+                                <span class="text-2xl">🇺🇸</span> <span
+                                    class="font-medium text-gray-700">English</span>
+                            </button>
+
+
+
+
+                            <button onclick="setLanguage('hi')"
+                                class="w-full px-5 py-4 text-left hover:bg-primary-50 flex items-center gap-3 border-b border-primary-50 transition">
+                                <span class="text-2xl">🇮🇳</span> <span class="font-medium text-gray-700">हिंदी</span>
+                            </button>
+                            <button onclick="setLanguage('mr')"
+                                class="w-full px-5 py-4 text-left hover:bg-primary-50 flex items-center gap-3 transition">
+                                <span class="text-2xl">🇮🇳</span> <span class="font-medium text-gray-700">मराठी</span>
+                            </button>
+                        </div>
+                    </div>
+                    <a href="#features" class="text-gray-700 hover:text-primary-700 font-medium transition"
+                        data-en="Features" data-hi="विशेषताएं" data-mr="वैशिष्ट्ये">Features</a>
+                    <a href="#how-it-works" class="text-gray-700 hover:text-primary-700 font-medium transition"
+                        data-en="How it Works" data-hi="यह कैसे काम करता है" data-mr="हे कसे काम करते">How it Works</a>
+                    <div class="flex items-center gap-4 auth-links">
+                        <a href="login.html" class="text-primary-700 hover:text-primary-900 font-semibold"
+                            data-en="Log In" data-hi="लॉग इन" data-mr="लॉग इन करा">Log In</a>
+                        <a href="register.html"
+                            class="px-5 py-2 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-all"
+                            data-en="Get Started" data-hi="शुरू करें" data-mr="सुरू करा">Get Started</a>
+                    </div>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobileMenuBtn" class="p-2 text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#features" class="block text-gray-700 hover:text-primary-700 font-medium">Features</a>
+                <a href="#how-it-works" class="block text-gray-700 hover:text-primary-700 font-medium">How it Works</a>
+                <a href="login.html" class="block text-primary-700 hover:text-primary-900 font-semibold">Log In</a>
+                <a href="register.html"
+                    class="block px-5 py-2 bg-primary-600 text-white font-semibold rounded-xl text-center">Get
+                    Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-screen pt-24 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="text-white animate-slide-up">
+                    <h1 class="font-poppins font-bold text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
+                        <span data-en="Grow Smart." data-hi="स्मार्ट उगाएं." data-mr="स्मार्ट वाढवा.">Grow
+                            Smart.</span><br>
+                        <span data-en="Sell Smarter" data-hi="स्मार्ट बेचें" data-mr="शहाणे विका">Sell Smarter</span>
+                    </h1>
+                    <p class="text-primary-100 text-lg md:text-xl mb-8 max-w-lg"
+                        data-en="Empowering Indian farmers with AI-driven crop detection, weather risk alerts, and mandi price forecasting to maximize their income."
+                        data-hi="भारतीय किसानों को फसल पहचान, मौसम जोखिम अलर्ट और मंडी भविष्यवाणी के साथ सशक्त बनाकर उनकी आय को अधिकतम करना।"
+                        data-mr="भारतीय शेतकऱ्यांना पीक ओळख, हवामान धोका इशारे आणि मंडी किंमत पूर्वानुमानाद्वारे सशक्त करून त्यांची उत्पन्न वाढवणे.">
+                        Empowering Indian farmers with AI-driven crop detection, weather risk alerts, and mandi price
+                        forecasting to maximize their income.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="register.html"
+                            class="px-8 py-4 bg-white text-primary-700 font-bold rounded-xl hover:bg-gray-100 transition-all glow-btn"
+                            data-en="Get Started Free" data-hi="मुफ्त शुरू करें" data-mr="मोफत सुरू करा">Get Started
+                            Free</a>
+                        <button
+                            class="px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 transition-all flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" />
+                            </svg>
+                            <span data-en="Watch Demo" data-hi="डेमो देखें" data-mr="डेमो पहा">Watch Demo</span>
+                        </button>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-8 mt-12 pt-8 border-t border-white/20">
+                        <div>
+                            <p class="text-3xl font-bold">50K+</p>
+                            <p class="text-primary-200 text-sm" data-en="Farmers" data-hi="किसान" data-mr="शेतकरी">
+                                Farmers</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold">98%</p>
+                            <p class="text-primary-200 text-sm" data-en="Accuracy" data-hi="सटीकता" data-mr="अचूकता">
+                                Accuracy</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold">₹48K</p>
+                            <p class="text-primary-200 text-sm" data-en="Avg. Savings" data-hi="औसत बचत"
+                                data-mr="सरासरी बचत">Avg. Savings</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Card with Farmer Image -->
+                <div class="relative">
+                    <div class="bg-white rounded-3xl p-8 shadow-2xl animate-slide-up" style="animation-delay: 0.2s;">
+                        <!-- Farmer Image -->
+                        <div
+                            class="w-full h-64 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl mb-6 overflow-hidden flex items-center justify-center relative">
+                            <!-- Farmer SVG Illustration -->
+                            <svg viewBox="0 0 200 200" class="w-56 h-56">
+                                <!-- Background circle -->
+                                <circle cx="100" cy="100" r="90" fill="#166534" />
+                                <!-- Face -->
+                                <circle cx="100" cy="75" r="35" fill="#FDB813" />
+                                <!-- Eyes -->
+                                <circle cx="88" cy="70" r="4" fill="#166534" />
+                                <circle cx="112" cy="70" r="4" fill="#166534" />
+                                <!-- Smile -->
+                                <path d="M88 82 Q100 95 112 82" stroke="#166534" stroke-width="3" fill="none" />
+                                <!-- Turban -->
+                                <ellipse cx="100" cy="45" rx="38" ry="15" fill="#FDB813" />
+                                <ellipse cx="100" cy="40" rx="30" ry="12" fill="#E5A010" />
+                                <!-- Body -->
+                                <path d="M60 130 Q100 110 140 130 L150 190 L50 190 Z" fill="#166534" />
+                                <!-- Arms -->
+                                <path d="M60 140 Q40 160 50 180" stroke="#166534" stroke-width="12"
+                                    stroke-linecap="round" fill="none" />
+                                <path d="M140 140 Q160 160 150 180" stroke="#166534" stroke-width="12"
+                                    stroke-linecap="round" fill="none" />
+                                <!-- Hand holding crop -->
+                                <circle cx="50" cy="180" r="12" fill="#FDB813" />
+                                <path d="M45 165 L35 150" stroke="#22C55E" stroke-width="6" stroke-linecap="round" />
+                                <circle cx="35" cy="148" r="6" fill="#22C55E" />
+                                <circle cx="32" cy="153" r="4" fill="#22C55E" />
+                            </svg>
+                        </div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-2xl">📈</span>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm" data-en="Estimated Profit" data-hi="अनुमानित लाभ"
+                                    data-mr="अंदाजे नफा">Estimated Profit</p>
+                                <p class="font-poppins font-bold text-2xl text-primary-700">+₹48,300</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-2xl">🍅</span>
+                                    <span class="font-medium" data-en="Tomato" data-hi="टमाटर"
+                                        data-mr="टोमॅटो">Tomato</span>
+                                </div>
+                                <span class="text-green-600 font-semibold">+12%</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-2xl">🧅</span>
+                                    <span class="font-medium" data-en="Onion" data-hi="प्याज"
+                                        data-mr="कांदा">Onion</span>
+                                </div>
+                                <span class="text-green-600 font-semibold">+8%</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-2xl">🥔</span>
+                                    <span class="font-medium" data-en="Potato" data-hi="आलू"
+                                        data-mr="बटाट">Potato</span>
+                                </div>
+                                <span class="text-green-600 font-semibold">+5%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating badges -->
+                    <div class="absolute -top-4 -right-4 bg-white rounded-2xl p-4 shadow-xl floating">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">🔬</span>
+                            <span class="font-semibold text-gray-800" data-en="Disease Detected"
+                                data-hi="बीमारी का पता चला" data-mr="रोग आढळला">Disease Detected</span>
+                        </div>
+                        <p class="text-sm text-green-600 mt-1" data-en="Early Blight - 95% accuracy"
+                            data-hi="अगेती झुलसा - 95% सटीकता" data-mr="लवकर वाळणे - 95% अचूकता">Early Blight - 95%
+                            accuracy</p>
+                    </div>
+
+                    <div class="absolute -bottom-4 -left-4 bg-white rounded-2xl p-4 shadow-xl floating"
+                        style="animation-delay: 0.5s;">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">☀️</span>
+                            <span class="font-semibold text-gray-800" data-en="Weather Alert" data-hi="मौसम अलर्ट"
+                                data-mr="हवामान इशारा">Weather Alert</span>
+                        </div>
+                        <p class="text-sm text-blue-600 mt-1" data-en="Rain expected in 2 days"
+                            data-hi="2 दिनों में बारिश expected" data-mr="2 दिवसांत पाऊस अपेक्षित">Rain expected in 2
+                            days</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-poppins font-bold text-3xl md:text-4xl text-gray-800 mb-4"
+                    data-en="Powerful Features for Modern Farming" data-hi="आधुनिक कृषि के लिए शक्तिशाली विशेषताएं"
+                    data-mr="आधुनिक शेतीसाठी शक्तिशाली वैशिष्ट्ये">Powerful Features for Modern Farming</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto"
+                    data-en="Everything you need to make smarter farming decisions and maximize your profits"
+                    data-hi="स्मार्ट फैसले लेने और अपने मुनाफे को अधिकतम करने के लिए आपको जो कुछ भी चाहिए"
+                    data-mr="शहाणे शेती निर्णय घेण्यासाठी आणि तुमचा नफा वाढवण्यासाठी तुम्हाला हवे असलेले सर्व काही">
+                    Everything you need to make smarter farming decisions and maximize your profits</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-4xl">🔬</span>
+                    </div>
+                    <h3 class="font-poppins font-bold text-xl text-gray-800 mb-3" data-en="Crop Disease Detection"
+                        data-hi="फसल रोग पहचान" data-mr="पीक रोग शोध">Crop Disease Detection</h3>
+                    <p class="text-gray-600"
+                        data-en="Upload a photo of your crop and get instant AI-powered disease detection with treatment recommendations."
+                        data-hi="अपनी फसल की फोटो अपलोड करें और उपचार सिफारिशों के साथ तुरंत AI- संचालित बीमारी का पता लगाएं।"
+                        data-mr="तुमच्या पिकाचा फोटो अपलोड करा आणि उपचार शिफारसींसह त्वरीत AI-शक्तीने रोग शोध घ्या.">
+                        Upload a photo of your crop and get instant AI-powered disease detection with treatment
+                        recommendations.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-4xl">🌦️</span>
+                    </div>
+                    <h3 class="font-poppins font-bold text-xl text-gray-800 mb-3" data-en="Weather Risk Alerts"
+                        data-hi="मौसम जोखिम अलर्ट" data-mr="हवामान धोका इशारे">Weather Risk Alerts</h3>
+                    <p class="text-gray-600"
+                        data-en="Get real-time weather updates and AI-powered risk alerts to protect your crops from adverse conditions."
+                        data-hi="प्रतिकूल स्थितियों से अपनी फसलों की रक्षा के लिए वास्तविक समय के मौसम अपडेट और AI- शक्ति के जोखिम अलर्ट प्राप्त करें।"
+                        data-mr="प्रतिकूल परिस्थितींपासून तुमच्या पिकांचे संरक्षण करण्यासाठी रिअल-टाइम हवामान अपडेट आणि AI-शक्तीने धोका इशारे मिळवा.">
+                        Get real-time weather updates and AI-powered risk alerts to protect your crops from adverse
+                        conditions.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-14 h-14 bg-accent-100 rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-4xl">📈</span>
+                    </div>
+                    <h3 class="font-poppins font-bold text-xl text-gray-800 mb-3" data-en="Mandi Price Forecasting"
+                        data-hi="मंडी भाव पूर्वानुमान" data-mr="मंडी किंमत पूर्वानुमान">Mandi Price Forecasting</h3>
+                    <p class="text-gray-600"
+                        data-en="Predict market prices and get smart recommendations on when to sell for maximum profit."
+                        data-hi="बाजार भाव की भविष्यवाणी करें और अधिकतम लाभ के लिए कब बेचने के बारे में स्मार्ट सिफारिशें प्राप्त करें।"
+                        data-mr="बाजार किंमतींचा अंदाज घ्या आणि जास्तीत जास्त नफ्यासाठी कधी विकावे याबद्दल शहाणे शिफारसी मिळवा.">
+                        Predict market prices and get smart recommendations on when to sell for maximum profit.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-4xl">💰</span>
+                    </div>
+                    <h3 class="font-poppins font-bold text-xl text-gray-800 mb-3" data-en="Income Optimization"
+                        data-hi="आय अनुकूलन" data-mr="उत्पन्न ऑप्टिमायझेशन">Income Optimization</h3>
+                    <p class="text-gray-600"
+                        data-en="Track your expenses and income with smart analytics to maximize your farming profits."
+                        data-hi="अपने खर्च और आय को स्मार्ट एनालिटिक्स के साथ ट्रैक करें।"
+                        data-mr="तुमचा खर्च आणि उत्पन्न स्मार्ट अ‍ॅनालिटिक्ससह ट्रैक करा.">Track your expenses and
+                        income with smart analytics to maximize your farming profits.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-14 h-14 bg-pink-100 rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-4xl">🎙️</span>
+                    </div>
+                    <h3 class="font-poppins font-bold text-xl text-gray-800 mb-3" data-en="Voice Farming Assistant"
+                        data-hi="वॉइस फार्मिंग सहायक" data-mr="व्हॉइस शेती सहाय्यक">Voice Farming Assistant</h3>
+                    <p class="text-gray-600"
+                        data-en="Use voice commands to get instant updates on weather, prices, and crop advice in your language."
+                        data-hi="मौसम, भाव और फसल सलाह के बारे में तुरंत अपडेट पाने के लिए वॉइस कमांड का उपयोग करें।"
+                        data-mr="हवामान, किंमत आणि पीक सल्ला याबद्दल त्वरीत अपडेट मिळवण्यासाठी व्हॉइस कमांडचा वापर करा.">
+                        Use voice commands to get instant updates on weather, prices, and crop advice in your language.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg card-hover transition-all duration-300">
+                    <div class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-4xl">👥</span>
+                    </div>
+                    <h3 class="font-poppins font-bold text-xl text-gray-800 mb-3" data-en="Expert Community"
+                        data-hi="विशेषज्ञ समुदाय" data-mr="तज्ञ समुदाय">Expert Community</h3>
+                    <p class="text-gray-600"
+                        data-en="Connect with other farmers and agricultural experts to share knowledge and best practices."
+                        data-hi="अन्य किसानों और कृषि विशेषज्ञों से जुड़ें।"
+                        data-mr="इतर शेतकरी आणि कृषी तज्ञांशी जोडा.">Connect with other farmers and agricultural experts
+                        to share knowledge and best practices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-poppins font-bold text-3xl md:text-4xl text-gray-800 mb-4" data-en="How It Works"
+                    data-hi="यह कैसे काम करता है" data-mr="हे कसे काम करते">How It Works</h2>
+                <p class="text-gray-600 text-lg" data-en="Get started in three simple steps"
+                    data-hi="तीन सरल चरणों में शुरू करें" data-mr="तीन सोप्या पायङ्यांमध्ये सुरू करा">Get started in
+                    three simple steps</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-4xl">📷</span>
+                    </div>
+                    <h3 class="font-poppins font-bold text-xl text-gray-800 mb-3" data-en="Step 1: Upload Crop Photo"
+                        data-hi="चरण 1: फसल फोटो अपलोड करें" data-mr="पायरी 1: पीक फोटो अपलोड करा">Step 1: Upload Crop
+                        Photo</h3>
+                    <p class="text-gray-600"
+                        data-en="Take a clear photo of your crop leaf and upload it to the platform"
+                        data-hi="अपनी फसल की एक स्पष्ट तस्वीर लें" data-mr="तुमच्या पिकाची स्पष्ट छाया घ्या">Take a
+                        clear photo of your crop leaf and upload it to the platform</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-4xl">🤖</span>
+                    </div>
+                    <h3 class="font-poppins font-bold text-xl text-gray-800 mb-3" data-en="Step 2: AI Analyzes Disease"
+                        data-hi="चरण 2: AI विश्लेषण करता है" data-mr="पायरी 2: AI विश्लेषण करतो">Step 2: AI Analyzes
+                        Disease</h3>
+                    <p class="text-gray-600"
+                        data-en="Our advanced AI model analyzes the image and identifies any diseases"
+                        data-hi="हमारा उन्नत AI मॉडल छवि का विश्लेषण करता है"
+                        data-mr="आमचे प्रगत AI मॉडल छायाचित्राचे विश्लेषण करतो">Our advanced AI model analyzes the image
+                        and identifies any diseases</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-4xl">💡</span>
+                    </div>
+                    <h3 class="font-poppins font-bold text-xl text-gray-800 mb-3" data-en="Step 3: Get Recommendations"
+                        data-hi="चरण 3: सिफारिशें प्राप्त करें" data-mr="पायरी 3: शिफारसी मिळवा">Step 3: Get
+                        Recommendations</h3>
+                    <p class="text-gray-600"
+                        data-en="Receive detailed treatment plans and smart farming recommendations"
+                        data-hi="विस्तृत उपचार योजना प्राप्त करें" data-mr="विस्तृत उपचार योजना मिळवा">Receive detailed
+                        treatment plans and smart farming recommendations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 hero-gradient">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="font-poppins font-bold text-3xl md:text-4xl text-white mb-6"
+                data-en="Ready to Transform Your Farming?" data-hi="अपनी खेती बदलने के लिए तैयार हैं?"
+                data-mr="तुमची शेती बदलण्यासाठी तयार आहात?">Ready to Transform Your Farming?</h2>
+            <p class="text-primary-100 text-lg mb-8"
+                data-en="Join thousands of farmers already using KrishiMitra to grow smarter and sell smarter."
+                data-hi="क्रिशिमित्रा का उपयोग करने वाले हजारों किसानों में शामिल हों।"
+                data-mr="हजारो शेतकऱ्यांना जो आधीच KrishiMitra वापरतात त्यांच्यात सामील व्हा.">Join thousands of farmers
+                already using KrishiMitra to grow smarter and sell smarter.</p>
+            <div class="flex flex-wrap justify-center gap-4 auth-links">
+                <a href="register.html"
+                    class="px-8 py-4 bg-white text-primary-700 font-bold rounded-xl hover:bg-gray-100 transition-all glow-btn"
+                    data-en="Create Free Account" data-hi="मुफ्त खाता बनाएं" data-mr="मोफत खाते तयार करा">Create Free
+                    Account</a>
+                <a href="login.html"
+                    class="px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 transition-all"
+                    data-en="Log In" data-hi="लॉग इन" data-mr="लॉग इन करा">Log In</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">🌾</span>
+                        <span class="font-poppins font-bold text-xl">KrishiMitra 2.0</span>
+                    </div>
+                    <p class="text-gray-400" data-en="Empowering Indian farmers with AI-driven agricultural solutions."
+                        data-hi="AI-संचालित कृषि समाधानों के साथ भारतीय किसानों को सशक्त बनाना।"
+                        data-mr="AI-चालित शेती उपायांद्वारे भारतीय शेतकऱ्यांना सशक्त करणे.">Empowering Indian farmers
+                        with AI-driven agricultural solutions.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4" data-en="Product" data-hi="उत्पाद" data-mr="उत्पादन">Product</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition" data-en="Features" data-hi="विशेषताएं"
+                                data-mr="वैशिष्ट्ये">Features</a></li>
+                        <li><a href="#" class="hover:text-white transition" data-en="Pricing" data-hi="मूल्य निर्धारण"
+                                data-mr="किंमत">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white transition">API</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4" data-en="Company" data-hi="कंपनी" data-mr="कंपनी">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition" data-en="About" data-hi="के बारे में"
+                                data-mr="बद्दल">About</a></li>
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition" data-en="Careers" data-hi="करियर"
+                                data-mr="कारकीर्द">Careers</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4" data-en="Support" data-hi="सहायता" data-mr="समर्थन">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition" data-en="Help Center"
+                                data-hi="सहायता केंद्र" data-mr="मदत केंद्र">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition" data-en="Contact" data-hi="संपर्क"
+                                data-mr="संपर्क">Contact</a></li>
+                        <li><a href="#" class="hover:text-white transition" data-en="Privacy" data-hi="गोपनीयता"
+                                data-mr="गोपनीयता">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>© 2026 KrishiMitra. <span data-en="All rights reserved." data-hi="सर्व अधिकार सुरक्षित."
+                        data-mr="सर्व हक्क राखीव.">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language Dropdown Toggle
+        const langBtn = document.getElementById('langBtn');
+        const langDropdown = document.getElementById('langDropdown');
+
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!langBtn.contains(e.target) && !langDropdown.contains(e.target)) {
+                langDropdown.classList.add('hidden');
+            }
+        });
+
+        // Language Selection and Translation
+        function setLanguage(lang) {
+            const langNames = { en: 'EN', hi: 'हिं', mr: 'मरा' };
+            document.getElementById('currentLang').textContent = langNames[lang];
+            localStorage.setItem('language', lang);
+            langDropdown.classList.add('hidden');
+
+            // Apply translations to all elements with data attributes
+            document.querySelectorAll('[data-en]').forEach(element => {
+                if (element.dataset[lang]) {
+                    element.textContent = element.dataset[lang];
+                }
+            });
+
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        // Load saved language
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('language');
+            if (savedLang) {
+                setLanguage(savedLang);
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+    <script src="shared.js"></script>
+</body>
+
+</html>

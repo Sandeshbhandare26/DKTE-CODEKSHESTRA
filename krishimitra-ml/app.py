@@ -4,6 +4,14 @@ import pickle
 import numpy as np
 import pandas as pd
 
+# Load environment variables
+from dotenv import load_dotenv
+load_dotenv()
+
+# OpenAI integration
+import openai
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 try:
     import keras
     KERAS_AVAILABLE = True
@@ -123,6 +131,34 @@ disease_classes = [
     "Late Blight"
 ]
 
+# Solutions for each disease
+disease_solutions = {
+    "Healthy": "Your crop is healthy! Continue with regular farming practices, maintain proper irrigation and nutrient management.",
+    "Leaf Blight": "Apply copper-based fungicide or mancozeb. Remove and destroy infected leaves. Ensure good air circulation. Avoid overhead irrigation.",
+    "Powdery Mildew": "Apply sulfur-based fungicide or potassium bicarbonate spray. Remove heavily infected parts. Avoid overhead watering. Improve air circulation.",
+    "Rust": "Apply triazole-based fungicide (e.g., tebuconazole). Remove infected plant material. Avoid excess nitrogen fertilization.",
+    "Bacterial Spot": "Apply copper-based bactericide. Remove infected plant parts immediately. Avoid working in wet conditions. Use disease-free seeds.",
+    "Mosaic Virus": "No chemical cure. Remove and destroy infected plants immediately. Control aphids (virus vectors) with insecticide. Use resistant varieties.",
+    "Anthracnose": "Apply mancozeb or copper fungicide. Harvest at proper maturity. Store in cool, dry conditions. Remove infected fruits promptly.",
+    "Downy Mildew": "Apply metalaxyl or fosetyl-aluminum fungicide. Improve air circulation. Avoid overhead irrigation. Apply preventively in humid conditions.",
+    "Early Blight": "Apply chlorothalonil or mancozeb fungicide. Remove lower infected leaves. Use mulching to prevent soil splash. Practice crop rotation.",
+    "Late Blight": "Apply systemic fungicide (metalaxyl + mancozeb). Act immediately - spreads rapidly. Remove and destroy infected plants. Avoid overhead irrigation.",
+}
+
+# Crop type detection from disease (heuristic based on model training)
+disease_to_crop = {
+    "Healthy": "General",
+    "Leaf Blight": "Rice/Maize",
+    "Powdery Mildew": "Wheat/Cucumber",
+    "Rust": "Wheat/Bean",
+    "Bacterial Spot": "Tomato/Pepper",
+    "Mosaic Virus": "Tomato/Cucumber",
+    "Anthracnose": "Mango/Tomato",
+    "Downy Mildew": "Grape/Cucumber",
+    "Early Blight": "Tomato/Potato",
+    "Late Blight": "Tomato/Potato",
+}
+
 
 # -----------------------------------------
 # IMAGE PREPROCESS
@@ -159,6 +195,8 @@ async def predict_disease(file: UploadFile = File(...)):
         return {
             "disease": "Model not loaded",
             "confidence": 0,
+            "crop": "Unknown",
+            "solution": "CNN model could not be loaded. Please ensure cropguard_best.keras exists.",
             "error": "CNN model not available"
         }
     
@@ -170,16 +208,20 @@ async def predict_disease(file: UploadFile = File(...)):
         
         index = int(np.argmax(prediction))
         confidence = float(np.max(prediction))
-        disease = disease_classes[index]
+        disease = disease_classes[index] if index < len(disease_classes) else "Unknown"
         
         return {
             "disease": disease,
-            "confidence": round(confidence * 100, 2)
+            "confidence": round(confidence * 100, 2),
+            "crop": disease_to_crop.get(disease, "General"),
+            "solution": disease_solutions.get(disease, "Consult your local agricultural expert for treatment options.")
         }
     except Exception as e:
         return {
             "disease": "Error",
             "confidence": 0,
+            "crop": "Unknown",
+            "solution": "Analysis failed. Please try again with a clear crop image.",
             "error": str(e)
         }
 
@@ -233,7 +275,8 @@ def predict_price(crop: str, days: int = 7, mandi: str = None):
         'Sangli APMC Market Yard',
         'Sangli Phale Bhajipura Market',
         'Shivaji Bhaji Mandai',
-        'Vasutdadamarket Yard'
+        'Vasutdadamarket Yard',
+        'Vishnuanna Market'
     ]
     
     # Try to find the model
@@ -384,3 +427,45 @@ def get_available_models():
         "total_models": len(price_models),
         "models": list(price_models.keys())
     }
+
+# -----------------------------------------
+# OPENAI TEXT GENERATION
+# -----------------------------------------
+
+from pydantic import BaseModel
+
+class PromptRequest(BaseModel):
+    prompt: str
+    max_tokens: int = 150
+    temperature: float = 0.7
+
+@app.post("/generate-text")
+def generate_text(request: PromptRequest):
+    """Generate a response using OpenAI's text completion model."""
+    if not openai.api_key:
+        return {"error": "OpenAI API key not configured."}
+    try:
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=request.prompt,
+            max_tokens=request.max_tokens,
+            temperature=request.temperature
+        )
+        return {"response": response.choices[0].text.strip()}
+    except Exception as e:
+        return {"error": str(e)}
+
+# -----------------------------------------
+# STATIC FILES SERVING
+# -----------------------------------------
+
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+# Mount the 'public' folder
+app.mount("/", StaticFiles(directory="public", html=True), name="public")
+
+# Explicit fallback for index.html at root (optional but good for robustness)
+@app.get("/")
+async def read_index():
+    return FileResponse("public/index.html")
